@@ -1,0 +1,24 @@
+version: '3.7'
+services:
+  terraform:
+    image: hashicorp/terraform:1.5.0
+    environment:
+      TERRAFORM_BUCKET: "state-terraform"
+      AWS_ACCESS_KEY_ID: ${RF_CORP_AWS_ACCESS_KEY}
+      AWS_SECRET_ACCESS_KEY: ${RF_CORP_AWS_SECRET_KEY}
+      AWS_REGION: "us-east-1"
+      TF_VAR_account_number: ${RF_CORP_AWS_ACCOUNT_NUMBER}
+      TF_VAR_region: "us-east-1"
+      TF_VAR_github_token: ${RF_CORP_GITHUB_TOKEN}
+    working_dir: /workdir
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        rm -rf .terraform
+        rm -rf .terraform.lock.hcl
+        terraform init -backend-config="bucket=$$TERRAFORM_BUCKET" -backend-config="key="infrastructure/base/terraform.tfstate"" -backend-config="region=us-east-1"
+        terraform apply -auto-approve
+    volumes:
+      - ./:/workdir
+      - /var/run/docker.sock:/var/run/docker.sock
