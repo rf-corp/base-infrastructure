@@ -1,8 +1,10 @@
+#criando a role pra definir as policys que o git hub terá para acessar os recursos AWS
 resource "aws_iam_role" "identity-provider-github" {
   name = "github-actions"
   tags = {
     Terraform   = "true"
   }
+  
   assume_role_policy = jsonencode({
     Statement = [
       {
@@ -24,9 +26,10 @@ resource "aws_iam_role" "identity-provider-github" {
     Version = "2012-10-17"
   })
 }
-
-resource "aws_iam_role_policy" "test-s3" {
+#criando a policy para acessar tudo relacionando ao S3
+resource "aws_iam_role_policy" "terraform_access" {
   role   = aws_iam_role.identity-provider-github.id
+  name = "s3_terraform_access"
   policy = jsonencode({
     "Statement": [
       {

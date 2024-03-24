@@ -20,5 +20,5 @@ services:
         terraform init -backend-config="bucket=$$TERRAFORM_BUCKET" -backend-config="key="infrastructure/base/terraform.tfstate"" -backend-config="region=us-east-1"
         terraform apply -auto-approve
     volumes:
-      - ./:/workdir
+      - ./terraform:/workdir
       - /var/run/docker.sock:/var/run/docker.sock
