@@ -3,7 +3,7 @@ services:
   terraform:
     image: hashicorp/terraform:1.5.0
     environment:
-      TERRAFORM_BUCKET: "state-terraform"
+      TERRAFORM_BUCKET: "state-terraform-rf-corp"
       AWS_ACCESS_KEY_ID: ${RF_CORP_AWS_ACCESS_KEY}
       AWS_SECRET_ACCESS_KEY: ${RF_CORP_AWS_SECRET_KEY}
       AWS_REGION: "us-east-1"
