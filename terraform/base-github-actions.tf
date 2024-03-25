@@ -52,3 +52,36 @@ resource "aws_iam_role_policy" "terraform_access" {
     "Version": "2012-10-17"
   })
 }
+
+resource "aws_iam_role_policy" "security-group-github-actions" {
+  name = "ec2-policy-github-actions"
+  role   = aws_iam_role.identity-provider-github.id
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        "Action": [
+          "ec2:AuthorizeSecurityGroupIngress",
+          "ec2:RevokeSecurityGroupIngress",
+          "ec2:DescribeSecurityGroups",
+          "ec2:DescribeVpcs",
+          "ec2:DescribeVpcAttribute",
+          "ec2:CreateSecurityGroup",
+          "ec2:DescribeSubnets",
+          "ec2:RevokeSecurityGroupEgress",
+          "ec2:DescribeNetworkInterfaces",
+          "ec2:DeleteSecurityGroup",
+          "ec2:DescribeSecurityGroupRules",
+          "ec2:CreateNetworkInterface",
+          "ec2:AuthorizeSecurityGroupEgress",
+          "ec2:DeleteNetworkInterface"
+        ],
+        "Resource": [
+          module.main-vpc.arn
+        ],
+        "Effect": "Allow"
+      },
+    ]
+  })
+}
+
