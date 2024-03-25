@@ -86,7 +86,7 @@ resource "aws_iam_role_policy" "ec2-vpc" {
 }
 
 resource "aws_iam_role_policy" "ecs" {
-  name = "ec2-policy-github-actions"
+  name = "ecs-policy-github-actions"
   role   = aws_iam_role.identity-provider-github.id
   policy = jsonencode({
     Version = "2012-10-17",
