@@ -52,6 +52,23 @@ resource "aws_iam_role_policy" "terraform_access" {
     "Version": "2012-10-17"
   })
 }
+#criando a policy pra acesso para manipulacao de  Containers
+resource "aws_iam_role_policy" "docker_container" {
+  role   = aws_iam_role.identity-provider-github.id
+  name = "docker_container"
+  policy = jsonencode({
+    "Statement": [
+      {
+        "Action": ["ecr:*"],
+        "Effect": "Allow",
+        "Resource": [
+          "*"
+        ]
+      }
+    ],
+    "Version": "2012-10-17"
+  })
+}
 
 resource "aws_iam_role_policy" "ec2-vpc" {
   name = "ec2-vpc-policy-github-actions"
