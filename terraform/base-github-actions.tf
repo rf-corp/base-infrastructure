@@ -59,7 +59,7 @@ resource "aws_iam_role_policy" "docker_container" {
   policy = jsonencode({
     "Statement": [
       {
-        "Action": ["ecr:*"],
+        "Action": ["ecr:*", "ecs:*"],
         "Effect": "Allow",
         "Resource": [
           "*"
