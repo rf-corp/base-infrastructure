@@ -15,10 +15,6 @@ variable "labels" {
   type = map(string)
 }
 
-variable "region" {
-  type = string
-}
-
 variable "account_number" {
   type = number
 }
