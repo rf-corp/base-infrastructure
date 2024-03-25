@@ -121,3 +121,69 @@ resource "aws_iam_role_policy" "ecs" {
   })
 }
 
+
+resource "aws_iam_role_policy" "create_role" {
+  name = "github-actions-create-roles"
+  role   = aws_iam_role.identity-provider-github.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "iam:CreateRole",
+          "iam:CreatePolicy",
+          "iam:TagRole",
+          "iam:GetRole",
+          "iam:ListRolePolicies",
+          "iam:ListAttachedRolePolicies",
+          "iam:ListInstanceProfilesForRole",
+          "iam:DeleteRole",
+          "iam:TagPolicy",
+          "iam:GetPolicy",
+          "iam:GetPolicyVersion",
+          "iam:ListPolicyVersions",
+          "iam:DeletePolicy",
+          "iam:AttachRolePolicy",
+          "iam:PassRole",
+          "iam:CreatePolicyVersion"
+        ]
+        Effect   = "Allow"
+        "Resource": [
+          "*"
+        ]
+        Condition = {
+          StringEqualsIfExists = {
+            "aws:RequestTag/Provider" : "terraform"
+          }
+        }
+      },
+    ]
+  })
+}
+
+resource "aws_iam_role_policy" "create-lambdas" {
+  name = "github-actions-create-lambdas"
+  role   = aws_iam_role.identity-provider-github.id
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "logs:*"
+        ]
+        Effect   = "Allow"
+        "Resource": [
+          "*"
+        ]
+        Condition = {
+          StringEqualsIfExists = {
+            "aws:RequestTag/Provider" : "terraform"
+          }
+        }
+      },
+    ]
+  })
+}
+
+
+
