@@ -77,7 +77,7 @@ resource "aws_iam_role_policy" "ec2-vpc" {
           "ec2:DeleteNetworkInterface"
         ],
         "Resource": [
-          module.main-vpc.arn
+          "*"
         ],
         "Effect": "Allow"
       },
